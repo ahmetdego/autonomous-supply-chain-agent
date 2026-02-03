@@ -1,0 +1,19 @@
+# Python Cache
+__pycache__/
+*.py[cod]
+
+# Virtual Environment (Sanal Ortam Klasörleri)
+venv/
+env/
+.env
+.venv/
+
+# IDE Settings (Cursor/VS Code ayarları gitmesin)
+.vscode/
+.idea/
+
+# macOS gereksiz dosyaları
+.DS_Store
+
+# AWS Credentials (Güvenlik için asla yüklenmemeli)
+.aws/
