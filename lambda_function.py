@@ -57,16 +57,22 @@ def lambda_handler(event, context):
     
     # Simulating a trigger from the Dashboard/User
     # In a real scenario, this 'text' could come from the 'event' object.
-    user_input = """
-    Analyze 'OTC_VIT_C_ZINC'.
-    1. Check Stock Level.
-    2. Check Price vs Competitor.
-    3. STRICTLY enforce the 10% Profit Margin Rule (Cost * 1.10).
-    4. Execute necessary actions and Send Notification Email.
+    trigger_reason = event.get("trigger_reason", "Genel Kontrol")
+    
+    user_input = f"""
+    Analyze product: 'OTC_VIT_C_ZINC'.
+    
+    CRITICAL TRIGGER REASON: '{trigger_reason}'
+    
+    INSTRUCTION: You MUST ONLY execute the rules defined in the SYSTEM PROMPT for this specific trigger reason. Do not perform general analysis. Execute necessary actions and send the notification email.
     """
     
     # Initialize conversation history
     messages = [{"role": "user", "content": [{"text": user_input}]}]
+
+
+    
+
     
     turn_count = 0
     max_turns = 10  # Prevent infinite loops
