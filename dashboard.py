@@ -7,13 +7,15 @@ import os
 from datetime import datetime
 from decimal import Decimal
 
-# IMPORT BRAIN (Local Lambda Function)
-import lambda_function as agent_brain
 
 if "aws" in st.secrets:
     os.environ["AWS_ACCESS_KEY_ID"] = st.secrets["aws"]["access_key_id"]
     os.environ["AWS_SECRET_ACCESS_KEY"] = st.secrets["aws"]["secret_access_key"]
     os.environ["AWS_DEFAULT_REGION"] = st.secrets["aws"]["region"]
+
+
+# IMPORT BRAIN (Local Lambda Function)
+import lambda_function as agent_brain
 
 
 # --- AWS CONFIGURATION ---
