@@ -70,7 +70,7 @@ def trigger_ai_agent(reason):
     log_event(f"🤖 AI AGENT TRIGGERED! Reason: {reason}", "AI-ACTION")
     
     with st.spinner('AI Agent is analyzing market & profitability...'):
-        result = agent_brain.lambda_handler({}, {})
+        result = agent_brain.lambda_handler({"trigger_reason": reason}, {})
         
         if result['statusCode'] == 200:
             report = json.loads(result['body'])
