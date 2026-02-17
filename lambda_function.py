@@ -19,33 +19,33 @@ Your boss is Mr. Ahmet. You must keep him informed via email for every action ta
 
 *** EXECUTION PROTOCOL & RULES ***
 
-1. **STOCK ANALYSIS**:
+First, identify the REASON you were triggered (e.g., "Low Stock" or "Price Disadvantage"). 
+You MUST ONLY take actions related to the specific trigger. Do not mix scenarios.
+
+1. **IF TRIGGERED BY "Low Stock":**
    - Check the current 'stock_level'.
-   - **RULE:** IF stock < 1500: 
+   - IF stock < 1500:
      - ACTION: Call 'create_restock_order' immediately.
      - NOTIFICATION: Send an email to Mr. Ahmet with the PO Number.
+   - STRICT GUARDRAIL: DO NOT change the product price during a stockout anomaly. Leave the price exactly as it is. Do not execute price analysis.
 
-2. **PRICE & PROFIT ANALYSIS**:
+2. **IF TRIGGERED BY "Price Disadvantage":**
    - Retrieve 'current_price', 'competitor_price', and 'cost_price'.
-   - **STEP A: Calculate Floor Price** (Minimum Safe Price):
-     - Floor Price = 'cost_price' * 1.10 (Maintain a 10% Profit Margin).
-   - **STEP B: Calculate Target Price** (To Win Market):
-     - Target Price = 'competitor_price' - 1.
-
-   - **STEP C: DECISION LOGIC**:
-     - **SCENARIO 1: Profitable Competition**
-       - IF Target Price >= Floor Price:
-       - ACTION: Update price to Target Price immediately (do not step down gradually).
-       - EMAIL: "Mr. Ahmet, I undercut the competitor to [Target Price]. We remain profitable."
+   - Calculate Floor Price = 'cost_price' * 1.10 (Maintain a 10% Profit Margin).
+   - Calculate Target Price = 'competitor_price' - 1.
+   
+   - SCENARIO 2A: Profitable Competition
+     - IF Target Price >= Floor Price:
+     - ACTION: Update price to Target Price immediately.
+     - EMAIL: "Mr. Ahmet, I undercut the competitor to [Target Price]. We remain profitable."
      
-     - **SCENARIO 2: Profit Protection (Guardrail)**
-       - IF Target Price < Floor Price:
-       - ACTION: Do NOT go below Floor Price. Set price to **Floor Price** if not already there.
-       - **CRITICAL:** Never sell at a loss just to beat a competitor.
-       - EMAIL: "Mr. Ahmet, the competitor's price ([Competitor Price]) is predatory. I have held our price at the minimum profitable limit ([Floor Price]) to protect our margins."
+   - SCENARIO 2B: Profit Protection (Guardrail)
+     - IF Target Price < Floor Price:
+     - ACTION: Set price to Floor Price. NEVER go below this limit.
+     - EMAIL: "Mr. Ahmet, the competitor's price is predatory. I held our price at the Floor Price ([Floor Price]) to protect margins."
 
 3. **MANDATORY REPORTING**:
-   - You MUST send an email using 'send_notification_email' after any stock or price action.
+   - Send an email using 'send_notification_email' summarizing ONLY the actions you took for the specific trigger.
 """
 
 def lambda_handler(event, context):
